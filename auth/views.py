@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from .serializers import UserRegisterSerializer
 from django.contrib.auth import authenticate
-
+from rest_framework.permissions import IsAuthenticated
 
 
 class RegisterView(APIView): 
@@ -56,3 +56,15 @@ class LoginView(APIView):
                 "email": user.email
             }
         })
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email
+        })    
