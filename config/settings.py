@@ -92,3 +92,4 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
+BASE_CURRENCY = os.getenv("BASE_CURRENCY", "USD")

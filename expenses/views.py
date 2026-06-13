@@ -2,9 +2,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Sum
-
+from .utils import get_exchange_rates,get_amount_in_usd
 from .models import Category, Expense
 from .serializers import CategorySerializer, ExpenseSerializer
+from collections import defaultdict
+from decimal import Decimal
 
 
 @api_view(["GET", "POST"])
@@ -64,9 +66,22 @@ def expense_detail(request, pk):
 
 @api_view(["GET"])
 def expense_summary(request):
-    summary = (
-        Expense.objects.values("category__name")
-        .annotate(total=Sum("amount"))
-        .order_by("category__name")
-    )
+    
+    categories = Category.objects.filter(user=request.user).prefetch_related("expenses")
+    summary = []
+    category_totals = defaultdict(Decimal)
+    for category in categories:    
+        for expense in category.expenses.all():
+            try:
+                amount_in_usd = get_amount_in_usd(expense.currency, expense.amount)
+                category_totals[category.name] += amount_in_usd
+            except Exception as e:
+                continue
+
+    summary = [
+        {'category__name': category, 'total': total}
+        for category, total in category_totals.items()
+    ]
     return Response(list(summary))
+
+          
