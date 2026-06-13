@@ -12,6 +12,25 @@
   ],
   "item": [
     {
+  "name": "Register User",
+  "request": {
+    "method": "POST",
+    "header": [
+      { "key": "Content-Type", "value": "application/json" }
+    ],
+    "body": {
+      "mode": "raw",
+      "raw": "{\n  \"username\": \"ram\",\n  \"password\": \"12345678\",\n  \"confirm_password\": \"12345678\"\n}"
+    },
+    "url": {
+      "raw": "{{base_url}}/api/auth/register/",
+      "host": ["{{base_url}}"],
+      "path": ["api", "auth", "register", ""]
+    },
+    "description": "Registers a new user and creates an account in the system."
+  }
+},
+    {
       "name": "List Categories",
       "request": {
         "method": "GET",
@@ -111,6 +130,7 @@
         "description": "Updates an existing expense by id."
       }
     },
+
     {
       "name": "Delete Expense",
       "request": {
