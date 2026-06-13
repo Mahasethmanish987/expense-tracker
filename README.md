@@ -56,4 +56,5 @@ Missing `Sum` import from Django ORM.
 
 ### ✅ Fix
 ```python
-from django.db.models import Sum
+from django.db.models import Sum<img width="1913" height="920" alt="Screenshot 2026-06-13 230931" src="https://github.com/user-attachments/assets/22ff0022-3b3e-4910-9d22-b5a87ca713a2" />
+
