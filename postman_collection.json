@@ -30,6 +30,28 @@
     "description": "Registers a new user and creates an account in the system."
   }
 },
+{
+  "name": "Login User",
+  "request": {
+    "method": "POST",
+    "header": [
+      {
+        "key": "Content-Type",
+        "value": "application/json"
+      }
+    ],
+    "body": {
+      "mode": "raw",
+      "raw": "{\n  \"username\": \"ram\",\n  \"password\": \"12345678\"\n}"
+    },
+    "url": {
+      "raw": "{{base_url}}/api/auth/login/",
+      "host": ["{{base_url}}"],
+      "path": ["api", "auth", "login", ""]
+    },
+    "description": "Logs in a user and returns authentication token."
+  }
+},
     {
       "name": "List Categories",
       "request": {
