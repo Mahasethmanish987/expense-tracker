@@ -58,3 +58,57 @@ Missing `Sum` import from Django ORM.
 ## 📸 Bot Alert Proof
 
 ![Bot Alert](https://github.com/user-attachments/assets/c82aacfd-2af3-486a-9e02-3019be186745)
+
+
+## 🧠 Design Decisions
+
+### 🔐 Authentication & Security
+- Used DRF’s `IsAuthenticated` permission to secure all endpoints.
+- Ensured all API access requires a valid authenticated user.
+- Prevented cross-user data leakage by enforcing `request.user` filtering at the queryset level.
+- Adopted object-level ownership (each `Category` and `Expense` is tied to a specific user).
+
+---
+
+### 🗂️ Data Modeling
+- Designed a simple relational structure:
+  - User → Category → Expense
+- Each expense belongs to a category and user, ensuring strict ownership separation.
+- Added `currency` field in `Expense` to support multi-currency tracking without altering original amount.
+
+---
+
+### 💱 Currency Conversion Strategy
+- Stored original transaction amount with its currency (no loss of original data).
+- Performed conversion dynamically in the summary endpoint using live exchange rates.
+- Kept conversion logic separate from models to maintain clean architecture.
+
+---
+
+### 📊 Aggregation & Reporting
+- Used Django ORM `prefetch_related` to optimize database queries.
+- Calculated category-wise totals in base currency (USD) at runtime.
+- Designed summary endpoint to be frontend-ready without extra API calls.
+
+---
+
+### 🤖 Budget Alert System
+- Implemented threshold-based alerts using category-wise monthly limits.
+- Triggered alert immediately after expense creation when limit exceeded.
+- Used external bot API (Telegram/Slack) for notifications.
+
+---
+
+### ⚙️ API Design Philosophy
+- Followed RESTful conventions (GET, POST, PUT, DELETE).
+- Maintained consistent response structures across endpoints.
+- Kept API responses minimal but frontend-ready.
+- Prioritized readability and maintainability over complexity.
+
+---
+
+### 🚧 Trade-offs & Limitations
+- Currency conversion depends on external API availability.
+- No caching for exchange rates implemented.
+- Bot alerts are synchronous (no retry/background queue).
+- No pagination implemented for large datasets.
