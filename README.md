@@ -95,7 +95,7 @@ Missing `Sum` import from Django ORM.
 ### 🤖 Budget Alert System
 - Implemented threshold-based alerts using category-wise monthly limits.
 - Triggered alert immediately after expense creation when limit exceeded.
-- Used external bot API (Telegram/Slack) for notifications.
+- Used external bot API (Slack) for notifications.
 
 ---
 
