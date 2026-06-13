@@ -66,22 +66,32 @@ def expense_detail(request, pk):
 
 @api_view(["GET"])
 def expense_summary(request):
-    
+    rates, as_of = get_rates_and_as_of()
     categories = Category.objects.filter(user=request.user).prefetch_related("expenses")
-    summary = []
-    category_totals = defaultdict(Decimal)
-    for category in categories:    
-        for expense in category.expenses.all():
-            try:
-                amount_in_usd = get_amount_in_usd(expense.currency, expense.amount)
-                category_totals[category.name] += amount_in_usd
-            except Exception as e:
+    category_data = defaultdict(lambda: {
+        'total_usd': Decimal('0'),
+        'currencies': set()
+    })
+    for cat in categories:
+        for expense in cat.expenses.all():
+            currency = expense.currency
+            rate = rates.get(currency)
+            if rate is None:
                 continue
+            usd_amount = expense.amount / rate
+            category_data[cat.name]['total_usd'] += usd_amount
+            category_data[cat.name]['currencies'].add(currency)
+    categories_output = []
+    for cat_name, data in category_data.items():
+        rate_dict = {curr: f"{rates[curr]:.2f}" for curr in data['currencies']}
+        categories_output.append({
+             "category": cat_name,
+            "total": f"{data['total_usd']:.2f}",
+            "rate": rate_dict,
+            "as_of": as_of  
+        })
 
-    summary = [
-        {'category__name': category, 'total': total}
-        for category, total in category_totals.items()
-    ]
-    return Response(list(summary))
-
-          
+    return Response({
+        "base_currency": "USD",
+        "categories": categories_output
+    })
