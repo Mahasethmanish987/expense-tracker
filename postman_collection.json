@@ -52,6 +52,42 @@
     "description": "Logs in a user and returns authentication token."
   }
 },
+{
+  "name": "Get Profile",
+  "request": {
+    "method": "GET",
+    "header": [
+      {
+        "key": "Authorization",
+        "value": "Token {{token}}"
+      }
+    ],
+    "url": {
+      "raw": "{{base_url}}/api/auth/profile/",
+      "host": ["{{base_url}}"],
+      "path": ["api", "auth", "profile", ""]
+    },
+    "description": "Returns the authenticated user's profile details."
+  }
+},
+{
+  "name": "Logout User",
+  "request": {
+    "method": "POST",
+    "header": [
+      {
+        "key": "Authorization",
+        "value": "Token {{token}}"
+      }
+    ],
+    "url": {
+      "raw": "{{base_url}}/api/auth/logout/",
+      "host": ["{{base_url}}"],
+      "path": ["api", "auth", "logout", ""]
+    },
+    "description": "Logs out the user by deleting the authentication token."
+  }
+},
     {
       "name": "List Categories",
       "request": {
