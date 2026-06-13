@@ -10,20 +10,20 @@ from .serializers import CategorySerializer, ExpenseSerializer
 @api_view(["GET", "POST"])
 def category_list(request):
     if request.method == "GET":
-        categories = Category.objects.all()
+        categories = Category.objects.filter(user=request.user)
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
     serializer = CategorySerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    serializer.save(user=request.user)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET", "POST"])
 def expense_list(request):
     if request.method == "GET":
-        expenses = Expense.objects.all()
+        expenses = Expense.objects.filter(user=request.user)
 
         start_date = request.query_params.get("start_date")
         end_date = request.query_params.get("end_date")
@@ -37,14 +37,14 @@ def expense_list(request):
 
     serializer = ExpenseSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    serializer.save(user=request.user)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET", "PUT", "DELETE"])
 def expense_detail(request, pk):
     try:
-        expense = Expense.objects.get(pk=pk)
+        expense = Expense.objects.get(pk=pk,user=request.user)
     except Expense.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
