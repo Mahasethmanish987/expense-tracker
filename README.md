@@ -55,9 +55,6 @@ Summary endpoint crashed due to missing import.
 Missing `Sum` import from Django ORM.
 
 ### ✅ Fix
-```python
-from django.db.models import Sum
+## 📸 Bot Alert Proof
 
-
-<img width="1913" height="920" alt="Screenshot 2026-06-13 230931" src="https://github.com/user-attachments/assets/c82aacfd-2af3-486a-9e02-3019be186745" />
-
+![Bot Alert](https://github.com/user-attachments/assets/c82aacfd-2af3-486a-9e02-3019be186745)
