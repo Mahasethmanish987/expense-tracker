@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Sum
-from .utils import get_exchange_rates,get_amount_in_usd
+from .utils import get_rates_and_as_of
 from .models import Category, Expense
 from .serializers import CategorySerializer, ExpenseSerializer
 from collections import defaultdict
