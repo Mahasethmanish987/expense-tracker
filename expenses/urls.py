@@ -12,5 +12,10 @@ urlpatterns = [
         views.create_category_with_budget,
         name="create-category-with-budget",
     ),
+    path(
+    "expenses-with-currency/",
+    views.create_expense_with_currency,
+    name="expense-with-currency",
+    ),
    
 ]

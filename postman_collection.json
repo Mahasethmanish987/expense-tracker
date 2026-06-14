@@ -227,9 +227,9 @@
           "raw": "{\n  \"name\": \"Dining\",\n  \"description\": \"Restaurants and takeout\",\n  \"monthly_limit\": \"200.00\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/categories/",
+          "raw": "{{base_url}}/api/categories-with-budget/",
           "host": ["{{base_url}}"],
-          "path": ["api", "categories", ""]
+          "path": ["api", "categories-with-budget", ""]
         },
         "description": "Bot alerts feature: creates a category with a monthly spending limit. Crossing it triggers a bot alert."
       }
@@ -246,9 +246,9 @@
           "raw": "{\n  \"title\": \"Hotel in Paris\",\n  \"amount\": \"120.00\",\n  \"currency\": \"EUR\",\n  \"category\": 1,\n  \"date\": \"2026-06-09\",\n  \"notes\": \"Two nights\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/expenses/",
+          "raw": "{{base_url}}/api/expenses-with-currency/",
           "host": ["{{base_url}}"],
-          "path": ["api", "expenses", ""]
+          "path": ["api", "expenses-with-currency", ""]
         },
         "description": "Currency conversion feature: creates an expense in a non-base currency. The summary endpoint converts it to BASE_CURRENCY."
       }

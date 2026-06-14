@@ -42,13 +42,13 @@ class Command(BaseCommand):
             name=category_name,
             defaults={
                 'description': 'Multi-currency test category – low USD budget',
-                'monthly_budget_threshold': threshold_usd
+                'monthly_limit': threshold_usd
             }
         )
         if cat_created:
             self.stdout.write(self.style.SUCCESS(f'✅ Created category: {category_name} (budget: ${threshold_usd})'))
         else:
-            category.monthly_budget_threshold = threshold_usd
+            category.monthly_limit= threshold_usd
             category.save()
             self.stdout.write(self.style.WARNING(f'⚠️ Updated category {category_name} to budget ${threshold_usd}'))
 
@@ -128,7 +128,7 @@ class Command(BaseCommand):
         # ------------------------------------------------------------
         self.stdout.write(self.style.SUCCESS('\n=== SEEDING COMPLETE ==='))
         self.stdout.write(f'👤 User: alert_test_user / testpass123')
-        self.stdout.write(f'📂 Category: {category.name} (budget ${category.monthly_budget_threshold})')
+        self.stdout.write(f'📂 Category: {category.name} (budget ${category.monthly_limit})')
         self.stdout.write(f'💰 Expenses created: {created_count}')
         self.stdout.write(f'💵 Month-to-date USD spending (from seed): ${total_usd:.2f}')
         self.stdout.write('🔔 If Slack is configured and total > budget, you should receive an alert now.')

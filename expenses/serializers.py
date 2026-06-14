@@ -10,7 +10,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CategoryBudgetSerializer(CategorySerializer):
     class Meta(CategorySerializer.Meta):
-        fields = CategorySerializer.Meta.fields + ["monthly_budget_threshold"]
+        fields = CategorySerializer.Meta.fields + ["monthly_limit"]
 
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +24,16 @@ class ExpenseSerializer(serializers.ModelSerializer):
 class ExpenseWithCurrencySerializer(ExpenseSerializer):
     class Meta(ExpenseSerializer.Meta):
         fields = ExpenseSerializer.Meta.fields + ["currency"]
+
+    def validate_currency(self, value):
+        valid_currencies = [
+            choice[0]
+            for choice in Expense.CURRENCY_CHOICES
+        ]
+
+        if value not in valid_currencies:
+            raise serializers.ValidationError(
+                f"Currency must be one of: {', '.join(valid_currencies)}"
+            )
+
+        return value
