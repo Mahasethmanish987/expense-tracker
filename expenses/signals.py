@@ -11,7 +11,7 @@ from .utils import get_monthly_usd_spending,get_rates_and_as_of,send_slack_budge
 def check_budget_threshold(sender, instance, created, **kwargs):
 
     category = instance.category
-    budget = category.monthly_budget_threshold
+    budget = category.monthly_limit
 
     # No budget set or budget is zero → nothing to check
     if budget is None or budget <= Decimal('0'):
