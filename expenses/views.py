@@ -7,9 +7,12 @@ from .models import Category, Expense
 from .serializers import CategorySerializer, ExpenseSerializer
 from collections import defaultdict
 from decimal import Decimal
+from rest_framework.decorators import  permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
 def category_list(request):
     if request.method == "GET":
         categories = Category.objects.filter(user=request.user)
@@ -23,6 +26,7 @@ def category_list(request):
 
 
 @api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
 def expense_list(request):
     if request.method == "GET":
         expenses = Expense.objects.filter(user=request.user)
@@ -44,6 +48,7 @@ def expense_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
+@permission_classes([IsAuthenticated])
 def expense_detail(request, pk):
     try:
         expense = Expense.objects.get(pk=pk,user=request.user)
@@ -65,6 +70,7 @@ def expense_detail(request, pk):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def expense_summary(request):
     rates, as_of = get_rates_and_as_of()
     categories = Category.objects.filter(user=request.user).prefetch_related("expenses")
