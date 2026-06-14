@@ -9,6 +9,7 @@ from collections import defaultdict
 from decimal import Decimal
 from rest_framework.decorators import  permission_classes
 from rest_framework.permissions import IsAuthenticated
+from .serializers import CategoryBudgetSerializer
 
 
 @api_view(["GET", "POST"])
@@ -24,6 +25,15 @@ def category_list(request):
     serializer.save(user=request.user)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def create_category_with_budget(request):
+    serializer = CategoryBudgetSerializer(data=request.data)
+
+    serializer.is_valid(raise_exception=True)
+    serializer.save(user=request.user)
+
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
